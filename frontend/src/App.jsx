@@ -1,12 +1,7 @@
-import React from "react"
-
-function App() {
-
-  return (
-    <>
-      <h1>Hello From Restaruant Page!!</h1>
-    </>
-  )
+const App = () => {
+    return (
+        <div>App</div>
+    )
 }
 
-export default App
+export default App;
