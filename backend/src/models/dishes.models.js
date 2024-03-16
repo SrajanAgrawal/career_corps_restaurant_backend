@@ -5,13 +5,9 @@ const dishesSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    rest_password: {
-        type: String,
-        required: true
-    },
     dish_type: {
         type: String,
-        enum: ["VEG", "NON_VEG"]
+        enum: ['VEG', 'NON_VEG']
     },
     title: {
         type: String,
