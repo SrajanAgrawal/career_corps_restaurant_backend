@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const dishesSchema = new mongoose.Schema({
-    restaurant_tag: {
+    tag: {
         type: String,
         required: true
     },

@@ -4,6 +4,9 @@ import About from "./pages/About.jsx"
 import AddRestaurant from "./pages/AddRestaurant.jsx"
 import AddDish from "./pages/AddDish.jsx"
 import Header from "./components/Header.jsx";
+// import dotenv from "dotenv"
+
+// dotenv.config();
 
 const App = () => {
 
