@@ -95,6 +95,7 @@ app.post('/api/addNewDish/:tag', upload.single("file"), async (req, res, next) =
 
     const { password } = req.body;
     console.log(password);
+    
 
     if (!req.file) {
         next(ApiError(400, "File not exists"));

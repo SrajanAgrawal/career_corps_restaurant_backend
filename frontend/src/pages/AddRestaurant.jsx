@@ -1,6 +1,6 @@
 // import React from 'react'
 import axios from "axios";
-import { Label, TextInput, Select, Button ,FileInput} from "flowbite-react"
+import { Label, TextInput, Select, Button, FileInput } from "flowbite-react"
 import { useState } from "react"
 
 export default function AddRestaurant() {
@@ -12,11 +12,13 @@ export default function AddRestaurant() {
   const [state, setState] = useState("");
   const [serves, setServes] = useState("");
   const [coupons, setCoupons] = useState("");
-  const [contact, setContact]  = useState("");
-  const [file, setFile] = useState("")
+  const [contact, setContact] = useState("");
+  const [file, setFile] = useState();
 
   const registerNewRestaurant = async (e) => {
     e.preventDefault();
+
+    console.log('====================================');
     console.log(tag);
     console.log(password);
     console.log(title);
@@ -27,24 +29,39 @@ export default function AddRestaurant() {
     console.log(coupons);
     console.log(contact);
     console.log(file);
+    console.log('====================================');
 
-    await axios.post("http://localhost:5000/api/newRestaurant", {
-      tag,
-      password,
-      title,
-      description,
-      city,
-      state,
-      serves,
-      coupons,
-      contact,
-      file
-    }).then((response) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', file.name);
+
+    formData.append('tag', tag);
+    formData.append('password', password);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('country', 'India');
+    formData.append('city', city);
+    formData.append('state', state);
+    formData.append('serves', serves);
+    formData.append('coupons', coupons);
+    formData.append('contact', contact);
+
+
+    // configuration to add the images to backend - config is required to add the images to backend
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+
+    await axios.post("http://localhost:5000/api/newRestaurant", formData, config).then((response) => {
       console.log(response);
     }).catch((error) => {
       console.log(error);
     })
   }
+
+
   return (
     <>
       <div className="flex justify-center items-center h-16">
@@ -58,31 +75,31 @@ export default function AddRestaurant() {
           <div>
             <Label htmlFor="file-upload-helper-text" value="Upload file" />
           </div>
-          <FileInput id="file-upload-helper-text" helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)." onChange={(e) => setFile(e.target.value)} />
+          <FileInput id="file-upload-helper-text" helperText="SVG, PNG, JPG or GIF (MAX. 800x400px)." onChange={(e) => setFile(e.target.files[0])} accept="image/*" />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="Tag" value="Tag" />
           </div>
-          <TextInput id="Tag" type="text" placeholder="Restaurant Tag(Must be unique)" required onChange={(e) => setTag(e.target.value)}/>
+          <TextInput id="Tag" type="text" placeholder="Restaurant Tag(Must be unique)" required onChange={(e) => setTag(e.target.value)} />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="Password" value="Password" />
           </div>
-          <TextInput id="Password" type="password" placeholder="Enter Password" onChange={(e) => setPassword(e.target.value)} required/>
+          <TextInput id="Password" type="password" placeholder="Enter Password" onChange={(e) => setPassword(e.target.value)} required />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="Title" value="Title" />
           </div>
-          <TextInput id="Title" type="text" placeholder="Restaurant Name" onChange={(e) => setTitle(e.target.value)} required/>
+          <TextInput id="Title" type="text" placeholder="Restaurant Name" onChange={(e) => setTitle(e.target.value)} required />
         </div>
         <div>
           <div className="mb-2 block">
             <Label htmlFor="Description" value="Description" />
           </div>
-          <TextInput id="Description" type="text" placeholder="Description" onChange={(e) => setDescription(e.target.value)}/>
+          <TextInput id="Description" type="text" placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
         </div>
         <div>
           <div className="mb-2 block">
@@ -131,7 +148,7 @@ export default function AddRestaurant() {
           <div className="mb-2 block">
             <Label htmlFor="city" value="Select your City" />
           </div>
-          <TextInput id="city" type="text" placeholder="Enter your city" onChange={(e) => setCity(e.target.value)} required/>
+          <TextInput id="city" type="text" placeholder="Enter your city" onChange={(e) => setCity(e.target.value)} required />
         </div>
         <div>
           <div className="mb-2 block">
@@ -153,9 +170,9 @@ export default function AddRestaurant() {
           <div className="mb-2 block">
             <Label htmlFor="contact" value="Enter Contact" />
           </div>
-          <TextInput type="number" id="contact" placeholder="Ex: +123-456-789" onChange={(e) => setContact(e.target.value)} required/>
+          <TextInput type="number" id="contact" placeholder="Ex: +123-456-789" onChange={(e) => setContact(e.target.value)} required />
         </div>
-        
+
         <Button type="submit" onClick={registerNewRestaurant}>Register</Button>
       </form>
     </>
